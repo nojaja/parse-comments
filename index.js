@@ -22,11 +22,20 @@ const { utils } = lib;
 class Comments extends Emitter {
   constructor(options = {}) {
     super();
-    this.options = options;
+    this.options = Object.assign({commentStart: '/*'}, options);
     this.comments = [];
     this.parsers = {};
     this.tokens = [];
     this.ast = {};
+
+    console.log(this.options)
+
+    if (this.options.commentStart) {
+      this.options.commentStart = this.options.commentStart.replace(/([\*\/\(\)])/g, "\\$1")
+    }
+    if (this.options.commentEnd) {
+      this.options.commentEnd = this.options.commentEnd.replace(/([\*\/\(\)])/g, "\\$1")
+    }
   }
 
   /**
@@ -45,7 +54,9 @@ class Comments extends Emitter {
   tokenize(input, options) {
     let opts = Object.assign({}, this.options, options);
     // this only needs to be roughly correct. the tokenizer is smarter
-    let isComment = str => /^(\s*\/\*|\*\s*@| {4,})/gm.test(str);
+    // let isComment = str => /^(\s*\/\*|\*\s*@| {4,})/gm.test(str);
+    var re = new RegExp("^(\\s*" + opts.commentStart + "|\\*\\s*@| {4,})", "gm");
+    let isComment = str => re.test(str);
     if (opts.stripStars === void 0 && input && !isComment(input)) {
       opts.stripStars = false;
     }
