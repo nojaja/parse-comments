@@ -22,13 +22,11 @@ const { utils } = lib;
 class Comments extends Emitter {
   constructor(options = {}) {
     super();
-    this.options = Object.assign({commentStart: '/*'}, options);
+    this.options = Object.assign({commentStart: '/**', commentEnd: '*/'}, options);
     this.comments = [];
     this.parsers = {};
     this.tokens = [];
     this.ast = {};
-
-    console.log(this.options)
 
     if (this.options.commentStart) {
       this.options.commentStart = this.options.commentStart.replace(/([\*\/\(\)])/g, "\\$1")
@@ -344,7 +342,7 @@ class Comments extends Emitter {
       if (this.isValid(comments[i], options) === false) {
         continue;
       }
-
+      
       let comment = this.preprocess(comments[i], options);
       if (typeof fn === 'function') {
         comment = fn.call(this, comment) || comment;
