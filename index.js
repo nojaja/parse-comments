@@ -22,17 +22,17 @@ const { utils } = lib;
 class Comments extends Emitter {
   constructor(options = {}) {
     super();
-    this.options = Object.assign({commentStart: '/**', commentEnd: '*/'}, options);
+    this.options = Object.assign({commentStart: '/*', commentEnd: '*/'}, options);
     this.comments = [];
     this.parsers = {};
     this.tokens = [];
     this.ast = {};
 
     if (this.options.commentStart) {
-      this.options.commentStart = this.options.commentStart.replace(/([\*\/\(\)])/g, "\\$1")
+      this.options.commentStart = this.options.commentStart.replace(/([\*\/\(\)])/g, "\\$1") // "*" "/" "(" ")" -> \\*
     }
     if (this.options.commentEnd) {
-      this.options.commentEnd = this.options.commentEnd.replace(/([\*\/\(\)])/g, "\\$1")
+      this.options.commentEnd = this.options.commentEnd.replace(/([\*\/\(\)])/g, "\\$1") // "*" "/" "(" ")" -> \\*
     }
   }
 
@@ -53,7 +53,7 @@ class Comments extends Emitter {
     let opts = Object.assign({}, this.options, options);
     // this only needs to be roughly correct. the tokenizer is smarter
     // let isComment = str => /^(\s*\/\*|\*\s*@| {4,})/gm.test(str);
-    var re = new RegExp("^(\\s*" + opts.commentStart + "|\\*\\s*@| {4,})", "gm");
+    let re = new RegExp("^(\\s*" + opts.commentStart + "|\\*\\s*@| {4,})", "gm");
     let isComment = str => re.test(str);
     if (opts.stripStars === void 0 && input && !isComment(input)) {
       opts.stripStars = false;
@@ -124,7 +124,6 @@ class Comments extends Emitter {
     if (opts.format === true) {
       comment = lib.format.call(this, comment, opts);
     }
-
     this.emit('comment', comment);
     return comment;
   }
@@ -362,7 +361,7 @@ class Comments extends Emitter {
 
     let obj = utils.copyNode(comment);
     obj.code = utils.copyNode(comment.code);
-    obj.code.context = utils.copyNode(comment.code.context);
+    if(obj.code.context) obj.code.context = utils.copyNode(comment.code.context);
     return obj;
   }
 
@@ -388,9 +387,9 @@ class Comments extends Emitter {
       return opts.isValid(comment);
     }
 
-    if (!utils.isValidBlockComment(comment, options)) {
-      return false;
-    }
+    // if (!utils.isValidBlockComment(comment, options)) {
+    //   return false;
+    // }
     return true;
   }
 
