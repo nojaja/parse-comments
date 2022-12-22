@@ -27,8 +27,12 @@ describe('parse inline tags', () => {
           '// `{@code e.preventDefault()}`, but can be used as the callback argument of',
           '// `{@link goog.events.listen}` without declaring another function.',
           '// @param {!goog.events.Event} e An event.',
+          '// @param {@link Data}',
+          '// @param {/ab/cd}',
+          '// @return {@link Data}',
           'hoge()'
         ].join('\n'), { unwrap: true });
+        console.log("res:",res)
       assert.equal(res[0].description, 'Prevents the default action. It is equivalent to');
       assert.deepEqual(res[3].tags, [
         {
