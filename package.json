@@ -32,7 +32,7 @@
     "map-schema": "^0.3.0",
     "snapdragon-node": "^3.0.0",
     "snapdragon-parser": "^1.0.0",
-    "tokenize-comment": "^3.0.1"
+    "tokenize-comment": "git+https://github.com/nojaja/tokenize-comment.git"
   },
   "devDependencies": {
     "ansi": "^0.3.1",

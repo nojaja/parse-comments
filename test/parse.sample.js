@@ -32,7 +32,7 @@ describe('parse inline tags', () => {
           '// @return {@link Data}',
           'hoge()'
         ].join('\n'), { unwrap: true });
-        console.log("res:",res)
+        //console.log("res:",JSON.stringify(res,null,"\t"))
       assert.equal(res[0].description, 'Prevents the default action. It is equivalent to');
       assert.deepEqual(res[3].tags, [
         {
@@ -52,6 +52,21 @@ describe('parse inline tags', () => {
       ]);
 
       assert.deepEqual(res[0].inlineTags, []);
+    });
+
+    it('at comments', () => {
+      let comments = new Comments( {commentStart: '/*', commentEnd: '*/', allowSingleStar: true ,allowLineComment: true , extract:(str, opts)=>{
+        comments = extract(str, opts);
+        return comments
+      }});
+      let res = comments.parse([
+          '// @',
+          '// @ 2022-01-01',
+          'hoge()'
+        ].join('\n'), { unwrap: true });
+        console.log("res:",JSON.stringify(res,null,"\t"))
+      assert.equal(res[0].description, '@');
+      assert.equal(res[1].description, '@ 2022-01-01');
     });
 
   });
