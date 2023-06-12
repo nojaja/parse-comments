@@ -1,5 +1,5 @@
 {
-  "name": "parse-comments",
+  "name": "@nojaja/parse-comments",
   "description": "Parse code comments from JavaScript or any language that uses the same format.",
   "version": "1.0.0",
   "homepage": "https://github.com/jonschlinkert/parse-comments",
@@ -32,7 +32,7 @@
     "map-schema": "^0.3.0",
     "snapdragon-node": "^3.0.0",
     "snapdragon-parser": "^1.0.0",
-    "tokenize-comment": "git+https://github.com/nojaja/tokenize-comment.git"
+    "@nojaja/tokenize-comment": "^3.0.1"
   },
   "devDependencies": {
     "ansi": "^0.3.1",
