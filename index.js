@@ -2,7 +2,7 @@
 
 const Emitter = require('events');
 const extract = require('extract-comments');
-const tokenize = require('tokenize-comment');
+const tokenize = require('@nojaja/tokenize-comment');
 const lib = require('./lib');
 const { utils } = lib;
 
